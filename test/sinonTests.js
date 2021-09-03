@@ -21,14 +21,25 @@ describe('sinon tests', function() {
                 } else {
                    cb(); 
                 }
+            },
+            addClass: function(schedule) {
+               if(!schedule.classIsFull()) {
+                   // do stuff
+                   return true;
+               } else {
+                   return false;
+               }
             }
         }
 
         schedule = {
             dropClass: function() {
-                console.log('class dropped');
+               console.log('class dropped');
+            },
+            classIsFull: function() {
+               return true;  
             }
-        }
+        };
     });
 
     describe('student.dropClass', function() {
@@ -56,5 +67,21 @@ describe('sinon tests', function() {
            student.dropClass(1, dropClass);
            schedule.dropClass.called.should.be.true;
         });
+    });
+
+    describe('student with studs', function() {
+        it('should call a stubbed method', function() {
+           var stub = sinon.stub(schedule);
+           student.dropClass(1, stub.dropClass);
+           stub.dropClass.called.should.be.true;
+        });
+
+        it('should return true when the class is not full', function() {
+            var stub = sinon.stub(schedule);
+            stub.classIsFull.returns(false);
+
+            var returnVal = student.addClass(stub);
+            returnVal.should.be.true;
+        })
     });
 });
