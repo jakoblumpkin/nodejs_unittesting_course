@@ -21,3 +21,26 @@ describe('unit tests', function() {
         //Another way of doing it
       })
 });
+
+function add(num1, num2) {
+    num1 + num2;
+}
+
+describe('add without setup/teardown', function() {
+    var num;
+
+    beforeEach(function() {
+        num = 5;
+    });
+
+    it('should be ten when adding 5 to 5', function() {
+       num = add(num, 5);
+       num.should.equal(10);
+    });
+    //Not working
+
+    it('should be twelve when adding 7 to 5', function() {
+        add(num, 7).should.equal(12);
+     });
+     //Not working
+});
